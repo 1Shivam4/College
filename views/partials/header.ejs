@@ -1,0 +1,54 @@
+<section>
+  <header>
+    <nav class="navbar">
+      <a href="/" class="nav-link"
+        ><img src="/img/logo.png" alt="logo" width="40" id="logo"
+      /></a>
+
+      <% if(user){ %>
+      <ul class="nav-list flex" id="nav-list">
+        <li class="nav-item">
+          <a href="/cart" class="nav-link"
+            ><img src="/img/cart.svg" alt="shopping cart" width="20" id="cart"
+          /></a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link"
+            ><img src="/img/user/default.jpg" alt="user" width="16" id="user"
+          /></a>
+          <a href="/logout" class="nav-link">Logout</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">My Account</a>
+        </li>
+      </ul>
+
+      <% }else{ %>
+      <ul class="nav-list flex" id="nav-list">
+        <li class="nav-item">
+          <a href="/cart" class="nav-link"
+            ><img src="/img/cart.svg" alt="shopping cart" width="20" id="cart"
+          /></a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link"
+            ><img src="/img/user.svg" alt="user" width="16" id="user"
+          /></a>
+          <a href="/login" class="nav-link">Login/Sign up</a>
+        </li>
+      </ul>
+      <div class="m-menu" id="m-menu">
+        <img src="/img/menu.svg" alt="mobile menu" width="40" id="menu-img" />
+        <ul class="m-nav-list hidden">
+          <li class="nav-item m-item">
+            <a href="/login" class="nav-link">Login/Sign up</a>
+          </li>
+          <li class="nav-item m-item">
+            <a href="#" class="nav-link">My cart</a>
+          </li>
+        </ul>
+      </div>
+      <% } %>
+    </nav>
+  </header>
+</section>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="/css/app.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  </head>
+  <body>
+    <!-- Your HTML content -->
+    <div class="wrapper">
+      <%- include('partials/header.ejs') %>
+      <main>
+        <div class="container">
+          <div class="product_details grid">
+            <div class="product flex">
+              <div class="product-verticel-align">
+                <% data.images.forEach((e,index)=>{ %>
+                <div class="current-image">
+                  <a href="#img-<%= index %>"
+                    ><img src="/img<%= e %>.jpg" alt="image_<%= index %>"
+                  /></a>
+                </div>
+                <% }) %>
+              </div>
+              <div class="product-show-box">
+                <% data.images.forEach((e,index)=>{ %>
+                <div class="main-product-image" id="img-<%= index %>">
+                  <img src="/img<%= e %>.jpg" alt="image_<%= index+1 %>" />
+                </div>
+                <% }) %>
+                <!-- Default image -->
+                <div class="main-product-image" id="default-image">
+                  <img
+                    src="/img/<%= data.imageCover %>.jpg"
+                    alt="Default Image"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="details flex">
+              <div id="p_name">
+                <h3><%= data.name %></h3>
+              </div>
+              <div id="option">
+                <div class="qt-btn flex">
+                  <span>size : </span>
+                  <button>200gm</button>
+                  <button>200gm</button>
+                  <button>200gm</button>
+                  <button>200gm</button>
+                </div>
+              </div>
+              <div class="quantity flex">
+                <h3>Quantity:</h3>
+                <div class="quantity-box flex">
+                  <button class="quantity-button decrease">-</button>
+                  <input
+                    id="quantity-input"
+                    class="quantity-input"
+                    type="text"
+                    value="1"
+                    min="0"
+                    max="100"
+                  />
+                  <button class="quantity-button increase">+</button>
+                </div>
+              </div>
+              <div class="price">
+                <h3>
+                  Price: Rs/ <span id="price-display"><%= data.price %></span>
+                </h3>
+              </div>
+              <div class="rating flex">
+                <p><%= data.ratingAverage %></p>
+                <div class="star">
+                  <% [1,2,3,4,5].forEach(function(star){ %>
+                  <i
+                    class="fa-solid fa-star <%= data.ratingAverage >= star ? 'active' :'inactive' %>"
+                  ></i>
+                  <% }) %>
+                </div>
+                <p>
+                  <%= data.ratingsQuantity %> <%=
+                  data.ratingsQuantity==0?'rating' : 'ratings' %>
+                </p>
+              </div>
+              <div class="btn flex">
+                <% if(user){ %><button
+                  id="btn1"
+                  class="buy_now"
+                  data-product-id="<%= data._id %>"
+                >
+                  BUY NOW
+                </button>
+                <% }else{%>
+                <button id="btn1"><a href="/login">Login To Buy Now</a></button>
+                <%} %>
+                <button id="btn2">
+                  <i class="fa-solid fa-cart-shopping"></i> ADD TO CART
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <!-- REVIEW AND DETAILS SECTION -->
+      <section class="rev_det container">
+        <div class="divide">
+          <a href="#detail" id="det">Details</a>
+          <a href="#review" id="rev">Review</a>
+        </div>
+        <div class="detail" id="detail"><%= data.description %></div>
+        <div class="review grid" id="review">
+          <div class="review_option">
+            <h2>Customer Review</h2>
+            <div class="review-options flex">
+              <div class="star">
+                <i class="fa-regular fa-star"></i>
+                <i class="fa-regular fa-star"></i>
+                <i class="fa-regular fa-star"></i>
+                <i class="fa-regular fa-star"></i>
+                <i class="fa-regular fa-star"></i>
+              </div>
+              <p>|</p>
+              <div id="give_review">
+                <button>Write review</button>
+              </div>
+            </div>
+          </div>
+          <div class="line">
+            <p></p>
+          </div>
+          <!-- REVIEW SECTION -->
+          <div class="review_list grid" id="review_list">
+            <% data.reviews.forEach(e=>{ %>
+            <div class="custmor_review">
+              <div class="custmor flex">
+                <!-- <img src="<%= e.user.photo  %>" alt=""> -->
+                <h3><%= e.user.name %></h3>
+                <div class="star">
+                  <% [1,2,3,4,5].forEach(function(star){ %>
+                  <i
+                    class="fa-solid fa-star <%= e.rating >= star ? 'active' :'inactive' %>"
+                  ></i>
+                  <% }) %>
+                </div>
+              </div>
+              <div class="reviews"><%= e.review %></div>
+            </div>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+      <!--  Write review section -->
+      <div class="write_review" id="write_review">
+        <h3>Write a Review</h3>
+        <span>Rating</span>
+        <div class="rating_star">
+          <i class="fa-regular fa-star"></i>
+          <i class="fa-regular fa-star"></i>
+          <i class="fa-regular fa-star"></i>
+          <i class="fa-regular fa-star"></i>
+          <i class="fa-regular fa-star"></i>
+        </div>
+        <form action="" method="post">
+          <label for="title">Review Title:</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            placeholder="Enter review title here"
+            required
+          />
+          <label for="revie">Your Review:</label>
+          <textarea
+            id="revie"
+            name="revie"
+            placeholder="Write your review here"
+            rows="4"
+            required
+          ></textarea>
+          <div class="submit_btn">
+            <button id="cancle">Cancel</button>
+            <button id="submit">Submit</button>
+          </div>
+        </form>
+      </div>
+      <script src="/js/functionality/priceControl.js"></script>
+      <script src="/js/functionality/review.js"></script>
+
+      <%- include('partials/footer.ejs') %>
+    </div>
+  </body>
+</html>
