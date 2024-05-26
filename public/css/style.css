@@ -262,7 +262,7 @@ ul {
 }
 .product-img img {
   width: 100%;
-  height: 230px;
+  height: 270px;
   filter: grayscale(0.3);
   object-fit: cover;
 }
@@ -471,9 +471,7 @@ footer .container {
     width: 25ch;
     font-size: var(--fs-400);
   }
-  .product-img img {
-    height: 100px;
-  }
+
   .product-head,
   .show-more,
   .about-us-head h2 {
