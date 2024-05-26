@@ -309,9 +309,11 @@ ul {
   height: 100vh;
   align-items: center;
   margin: 10px 0px;
-  background-color: var(--clr-background);
 }
-
+.testimonial-slider-box {
+  padding: 30px;
+  background-color: var(--clr-background-two);
+}
 .testimonial-head {
   margin: 20px auto;
   font-size: var(--fs-700);
