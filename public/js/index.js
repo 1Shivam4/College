@@ -16,7 +16,7 @@ if (productBtn) {
     try {
       const response = await axios({
         method: 'POST',
-        url: `http://localhost:3000/api/v1/payment/order/${productId}`,
+        url: `https://dizzee-ecommerce-108b790591a0.herokuapp.com/api/v1/payment/order/${productId}`,
       });
 
       const order = response.data.order; // Accessing the order object
@@ -30,7 +30,7 @@ if (productBtn) {
         handler: async function (response) {
           try {
             const verificationResponse = await axios.post(
-              `http://localhost:3000/api/v1/payment/verify/${productId}`,
+              `https://dizzee-ecommerce-108b790591a0.herokuapp.com/api/v1/payment/verify/${productId}`,
               {
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
