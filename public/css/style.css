@@ -37,10 +37,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  scroll-behavior: smooth;
   /* outline: 1px solid red; */
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  scroll-behavior: smooth;
 }
 
 .hidden {
@@ -51,7 +51,7 @@
   padding: 30px;
   margin: auto;
   /* height: 100vh; */
-  max-width: calc(100% - 80px);
+  width: calc(100% - 80px);
 
   justify-content: center;
   flex-direction: column;
@@ -69,7 +69,7 @@ ul {
 
 .wrapper {
   margin: auto;
-  max-width: 1300px;
+  /* max-width: 1300px; */
 }
 
 /* Navigation Styling */
@@ -119,6 +119,11 @@ ul {
   border: 1px solid var(--clr-primary);
 }
 
+#hero-slider {
+  height: 100vh;
+  /* align-items: center; */
+}
+
 /* Slider container */
 .slider-container {
   position: relative;
@@ -149,7 +154,7 @@ ul {
 
 .slider-image {
   width: 100%;
-  max-height: calc(30rem - 100px);
+
   object-fit: contain;
   opacity: 0.9;
 }
@@ -178,8 +183,6 @@ ul {
 .next-btn {
   right: 10px;
 }
-
-/* Slider container end */
 
 /* Product styling */
 .product {
@@ -232,12 +235,12 @@ ul {
 }
 
 .product-container {
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   column-gap: 1.5rem;
 }
 .product-item {
   margin: 10px 0px;
-  border-radius: 30px;
+  /* border-radius: 30px; */
   /* border: 1px solid var(--clr-primary-900); */
   background-color: var(--clr-neutral);
   position: relative;
@@ -259,7 +262,7 @@ ul {
 }
 .product-img img {
   width: 100%;
-  height: 170px;
+  height: 230px;
   filter: grayscale(0.3);
   object-fit: cover;
 }
@@ -299,13 +302,12 @@ ul {
 }
 /* Testimonial  */
 #testimonial {
+  height: 100vh;
+  align-items: center;
   margin: 10px 0px;
   background-color: var(--clr-background);
 }
-.testimonials {
-  margin: auto;
-  width: calc(100% - 60px) !important;
-}
+
 .testimonial-head {
   margin: 20px auto;
   font-size: var(--fs-700);
@@ -324,6 +326,10 @@ ul {
   object-fit: cover;
 }
 
+#about {
+  height: 100vh;
+  align-items: center;
+}
 /* About Styling */
 .about-us {
   /* width: calc(100% - 60px) !important; */
@@ -445,14 +451,17 @@ footer .container {
     padding: 1em;
   }
   .container {
-    padding: 10px 5px;
+    padding: 0px;
+  }
+  #hero-slider {
+    align-items: center;
   }
   .product {
     padding: 0px;
     flex-direction: column-reverse;
   }
   .product-container {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     gap: 0.3rem;
   }
   .about-detail {

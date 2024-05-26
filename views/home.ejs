@@ -21,10 +21,10 @@
   <body>
     <div class="wrapper">
 <%- include('partials/header.ejs') %>
-      <section>
+      <section id="hero-slider" class="flex">
         <!-- Only 4 Products are allowed -->
         <div class="hero-container" id="hero">
-     <div class="container flex">
+     <div class="flex">
       <div class="slider-container">
         <ul class="slider">
           <li class="slider-item slider-item-style current-slide">
@@ -96,7 +96,7 @@
         </div>
       </section>
       <main id="main">
-        <section class="product">
+        <section class="product" id="product-section-container">
           <div class="container flex">
             <div class="product-section flex">
               <h2 class="product-head">Products</h2>
@@ -154,7 +154,7 @@
         </section>
       </main>
 
-      <article id="about">
+      <article id="about" class="flex">
         <div class="container flex about-us">
           <div class="about-detail grid">
             <div class="text">
@@ -194,7 +194,7 @@
           </div>
         </div>
       </article>
-      <article id="testimonial">
+      <article id="testimonial" class="flex">
         <div class="container flex">
           <div class="testimonials">
             <h2 class="testimonial-head">Testimonials</h2>

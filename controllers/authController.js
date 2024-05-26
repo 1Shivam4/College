@@ -120,14 +120,11 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL:
-        process.env.CALLBACK_URL || `http://localhost:3000/auth/google/secrets`,
+      callbackURL: process.env.CALLBACK_URL,
       userProfileURL: 'https://www.googleapis.com/oauth2/v3/userinfo',
     },
     async (accessToken, refreshToken, profile, cb) => {
       try {
-        // console.log(profile);
-
         const result = await User.findOne({ email: profile.email });
 
         if (!result) {
