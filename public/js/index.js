@@ -1,6 +1,8 @@
 import axios from 'axios';
 
 const productBtn = document.querySelector('.buy_now');
+const review = document.getElementById('form_review');
+console.log(review);
 
 if (productBtn) {
   productBtn.addEventListener('click', async (e) => {
@@ -16,7 +18,7 @@ if (productBtn) {
     try {
       const response = await axios({
         method: 'POST',
-        url: `http://localhost:3000/api/v1/payment/order/${productId}`,
+        url: `https://dizzee-ecommerce-108b790591a0.herokuapp.com/api/v1/payment/order/${productId}`,
       });
 
       const order = response.data.order; // Accessing the order object
@@ -30,7 +32,7 @@ if (productBtn) {
         handler: async function (response) {
           try {
             const verificationResponse = await axios.post(
-              `http://localhost:3000/api/v1/payment/verify/${productId}`,
+              `https://dizzee-ecommerce-108b790591a0.herokuapp.com/api/v1/payment/verify/${productId}`,
               {
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
@@ -66,6 +68,34 @@ if (productBtn) {
       rzp.open();
     } catch (err) {
       console.error(err);
+    }
+  });
+}
+
+if (reviewForm) {
+  reviewForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const form = event.target;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const response = await axios.post('/api/v1/review', data);
+
+      if (response.data.status === 'Success') {
+        showAlert('success', 'Thanks for the review');
+        setTimeout(() => {
+          window.location.href = response.data.redirectUrl;
+        }, 2000);
+      } else {
+        alert(response.data.message);
+      }
+    } catch (error) {
+      console.error('Error submitting the form:', error);
+      alert(
+        'An error occurred while submitting your review. Please try again.'
+      );
     }
   });
 }
