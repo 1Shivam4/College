@@ -164,23 +164,20 @@
       <!--  Write review section -->
       <div class="write_review" id="write_review">
         <h3>Write a Review</h3>
-        <span>Rating</span>
-        <div class="rating_star">
-          <i class="fa-regular fa-star"></i>
-          <i class="fa-regular fa-star"></i>
-          <i class="fa-regular fa-star"></i>
-          <i class="fa-regular fa-star"></i>
-          <i class="fa-regular fa-star"></i>
-        </div>
-        <form action="" method="post">
-          <label for="title">Review Title:</label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            placeholder="Enter review title here"
-            required
-          />
+
+        <form id="review_form">
+          <span>Rating</span>
+          <div class="rating_star">
+            <select name="rating" id="star_number">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
+          <input type="hidden" name="productId" value="<%= data._id %>" />
+          <input type="hidden" name="productSlug" value="<%= data.slug %>" />
           <label for="revie">Your Review:</label>
           <textarea
             id="revie"
@@ -191,7 +188,7 @@
           ></textarea>
           <div class="submit_btn">
             <button id="cancle">Cancel</button>
-            <button id="submit">Submit</button>
+            <button type="submit" id="submit">Submit</button>
           </div>
         </form>
       </div>

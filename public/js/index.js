@@ -1,6 +1,8 @@
 import axios from 'axios';
 
 const productBtn = document.querySelector('.buy_now');
+const review = document.getElementById('form_review');
+console.log(review);
 
 if (productBtn) {
   productBtn.addEventListener('click', async (e) => {
@@ -66,6 +68,34 @@ if (productBtn) {
       rzp.open();
     } catch (err) {
       console.error(err);
+    }
+  });
+}
+
+if (reviewForm) {
+  reviewForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const form = event.target;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const response = await axios.post('/api/v1/review', data);
+
+      if (response.data.status === 'Success') {
+        showAlert('success', 'Thanks for the review');
+        setTimeout(() => {
+          window.location.href = response.data.redirectUrl;
+        }, 2000);
+      } else {
+        alert(response.data.message);
+      }
+    } catch (error) {
+      console.error('Error submitting the form:', error);
+      alert(
+        'An error occurred while submitting your review. Please try again.'
+      );
     }
   });
 }

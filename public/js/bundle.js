@@ -2445,6 +2445,8 @@
 
   // public/js/index.js
   var productBtn = document.querySelector(".buy_now");
+  var review = document.getElementById("form_review");
+  console.log(review);
   if (productBtn) {
     productBtn.addEventListener("click", async (e) => {
       e.preventDefault();
@@ -2456,7 +2458,7 @@
       try {
         const response = await axios_default({
           method: "POST",
-          url: `http://localhost:3000/api/v1/payment/order/${productId}`
+          url: `https://dizzee-ecommerce-108b790591a0.herokuapp.com/api/v1/payment/order/${productId}`
         });
         const order = response.data.order;
         const options = {
@@ -2468,7 +2470,7 @@
           handler: async function(response2) {
             try {
               const verificationResponse = await axios_default.post(
-                `http://localhost:3000/api/v1/payment/verify/${productId}`,
+                `https://dizzee-ecommerce-108b790591a0.herokuapp.com/api/v1/payment/verify/${productId}`,
                 {
                   razorpay_order_id: response2.razorpay_order_id,
                   razorpay_payment_id: response2.razorpay_payment_id,
@@ -2503,6 +2505,30 @@
         rzp.open();
       } catch (err) {
         console.error(err);
+      }
+    });
+  }
+  if (reviewForm) {
+    reviewForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const form = event.target;
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+      try {
+        const response = await axios_default.post("/api/v1/review", data);
+        if (response.data.status === "Success") {
+          showAlert("success", "Thanks for the review");
+          setTimeout(() => {
+            window.location.href = response.data.redirectUrl;
+          }, 2e3);
+        } else {
+          alert(response.data.message);
+        }
+      } catch (error) {
+        console.error("Error submitting the form:", error);
+        alert(
+          "An error occurred while submitting your review. Please try again."
+        );
       }
     });
   }
