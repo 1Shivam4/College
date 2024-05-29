@@ -2443,10 +2443,22 @@
     mergeConfig: mergeConfig2
   } = axios_default;
 
+  // public/js/alerts.js
+  var hideAlert = () => {
+    const el = document.querySelector(".alert");
+    if (el)
+      el.parentElement.removeChild(el);
+  };
+  var showAlert = (type, msg, time = 7) => {
+    hideAlert();
+    const markup = `<div class="alert alert--${type}">${msg}</div>`;
+    document.querySelector("body").insertAdjacentHTML("afterbegin", markup);
+    window.setTimeout(hideAlert, time * 1e3);
+  };
+
   // public/js/index.js
   var productBtn = document.querySelector(".buy_now");
-  var review = document.getElementById("form_review");
-  console.log(review);
+  var reviewForm = document.getElementById("review_form");
   if (productBtn) {
     productBtn.addEventListener("click", async (e) => {
       e.preventDefault();
@@ -2458,7 +2470,7 @@
       try {
         const response = await axios_default({
           method: "POST",
-          url: `https://dizzee-ecommerce-108b790591a0.herokuapp.com/api/v1/payment/order/${productId}`
+          url: `/api/v1/payment/order/${productId}`
         });
         const order = response.data.order;
         const options = {
@@ -2470,7 +2482,7 @@
           handler: async function(response2) {
             try {
               const verificationResponse = await axios_default.post(
-                `https://dizzee-ecommerce-108b790591a0.herokuapp.com/api/v1/payment/verify/${productId}`,
+                `/api/v1/payment/verify/${productId}`,
                 {
                   razorpay_order_id: response2.razorpay_order_id,
                   razorpay_payment_id: response2.razorpay_payment_id,
@@ -2522,13 +2534,16 @@
             window.location.href = response.data.redirectUrl;
           }, 2e3);
         } else {
-          alert(response.data.message);
+          showAlert("error", response.data.message);
         }
       } catch (error) {
         console.error("Error submitting the form:", error);
-        alert(
-          "An error occurred while submitting your review. Please try again."
-        );
+        if (error.response) {
+          console.error("Server response:", error.response.data);
+          showAlert("error", error.response.data.message || "An error occurred!");
+        } else {
+          showAlert("error", "Please login!");
+        }
       }
     });
   }

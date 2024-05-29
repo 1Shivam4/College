@@ -1,8 +1,8 @@
 import axios from 'axios';
+import { showAlert } from './alerts.js';
 
 const productBtn = document.querySelector('.buy_now');
-const review = document.getElementById('form_review');
-console.log(review);
+const reviewForm = document.getElementById('review_form');
 
 if (productBtn) {
   productBtn.addEventListener('click', async (e) => {
@@ -18,7 +18,7 @@ if (productBtn) {
     try {
       const response = await axios({
         method: 'POST',
-        url: `https://dizzee-ecommerce-108b790591a0.herokuapp.com/api/v1/payment/order/${productId}`,
+        url: `/api/v1/payment/order/${productId}`,
       });
 
       const order = response.data.order; // Accessing the order object
@@ -32,7 +32,7 @@ if (productBtn) {
         handler: async function (response) {
           try {
             const verificationResponse = await axios.post(
-              `https://dizzee-ecommerce-108b790591a0.herokuapp.com/api/v1/payment/verify/${productId}`,
+              `/api/v1/payment/verify/${productId}`,
               {
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
@@ -71,7 +71,6 @@ if (productBtn) {
     }
   });
 }
-
 if (reviewForm) {
   reviewForm.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -89,13 +88,16 @@ if (reviewForm) {
           window.location.href = response.data.redirectUrl;
         }, 2000);
       } else {
-        alert(response.data.message);
+        showAlert('error', response.data.message); // Use showAlert for consistency
       }
     } catch (error) {
       console.error('Error submitting the form:', error);
-      alert(
-        'An error occurred while submitting your review. Please try again.'
-      );
+      if (error.response) {
+        console.error('Server response:', error.response.data);
+        showAlert('error', error.response.data.message || 'An error occurred!');
+      } else {
+        showAlert('error', 'Please login!');
+      }
     }
   });
 }

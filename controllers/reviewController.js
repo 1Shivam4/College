@@ -1,5 +1,5 @@
 const Review = require('../models/reviewModel');
-
+const User = require('../models/usersModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
@@ -27,6 +27,7 @@ exports.getAllReviews = catchAsync(async (req, res, next) => {
     });
   }
 });
+
 exports.createReview = catchAsync(async (req, res, next) => {
   if (req.isAuthenticated()) {
     const { productId, productSlug } = req.body;
@@ -34,36 +35,38 @@ exports.createReview = catchAsync(async (req, res, next) => {
       .populate('products')
       .populate('reviews');
 
-    console.log('Product slug', productSlug);
-
     let hasPurchased = false;
-    currentUser.products.forEach(function (data) {
+    currentUser.products.forEach((data) => {
       if (data.product._id.toString() === productId) {
         hasPurchased = true;
       }
     });
 
     if (!hasPurchased) {
-      res.redirect(`/product/${productSlug}?alert="review-failed"`);
+      console.log('User has not purchased the item');
+      return res.status(401).json({
+        status: 'failed',
+        message:
+          'You have not purchased the item. Please make a purchase to give us a review.',
+      });
     }
 
     await Review.create({
-      review: req.body.revie, // Corrected 'revie' to 'review'
+      review: req.body.revie,
       rating: req.body.rating,
       user: req.user._id,
       product: req.body.productId,
     });
 
-    res.status(200).json({
+    return res.status(200).json({
       status: 'Success',
       message: 'Thank you for giving us a review',
       redirectUrl: `/product/${productSlug}`,
     });
-    // res.redirect(`/product/${productSlug}/?alert="review-success"`);
   } else {
-    res.status(401).json({
+    return res.status(401).json({
       status: 'failed',
-      message: 'You are not logged in! Please log in first',
+      message: 'You are not logged in! Please log in first.',
     });
   }
 });

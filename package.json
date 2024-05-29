@@ -4,7 +4,7 @@
   "description": "Ecommerce Website for college",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "start:prod": "SET NODE_ENV=production && nodemon server.js",
     "watch": "esbuild ./public/js/index.js --bundle --outfile=./public/js/bundle.js --watch",
     "build": "esbuild ./public/js/index.js --bundle --outfile=./public/js/bundle.js"
