@@ -16,6 +16,8 @@ route.route('/cart').get(viewController.getCart);
 
 route.get('/login', authController.login);
 
+route.get('/admin', authController.restrictTo('admin'), viewController.admin);
+
 route.post(
   '/login',
   passport.authenticate('local', {
