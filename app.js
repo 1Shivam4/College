@@ -9,6 +9,8 @@ const xss = require('xss-clean');
 const passport = require('passport');
 const session = require('express-session');
 const flash = require('express-flash');
+const compression = require('compression');
+const cors = require('cors');
 
 const productRoute = require('./routes/productsRoute.js');
 const usersRoute = require('./routes/usersRoute.js');
@@ -21,6 +23,8 @@ const AppError = require('./utils/appError.js');
 const globalErrorHandler = require('./controllers/errorHandlerController.js');
 
 const app = express();
+
+app.enable('trust proxy');
 
 app.use(
   session({
@@ -52,6 +56,9 @@ app.use(express.json({ limit: '10kb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(cors());
+app.options('*', cors());
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -77,6 +84,8 @@ app.use(mongoSanitize());
 
 // Data sanitization from xss
 app.use(xss());
+
+app.use(compression());
 
 // Test middleware
 app.use((req, res, next) => {
