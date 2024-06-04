@@ -143,11 +143,6 @@ ul {
   border: 1px solid var(--clr-primary);
 }
 
-#hero-slider {
-  /* height: 100vh; */
-  /* align-items: center; */
-}
-
 /* Slider container */
 .slider-container {
   position: relative;
