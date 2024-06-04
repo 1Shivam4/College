@@ -8,7 +8,7 @@
     
     <title>E-commerce landing page</title>
     <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
-    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="/css/style.css" />
 
     <link
       rel="stylesheet"
@@ -21,10 +21,10 @@
   <body>
     <div class="wrapper">
 <%- include('partials/header.ejs') %>
-      <section id="hero-slider" class="flex">
+      <section>
         <!-- Only 4 Products are allowed -->
         <div class="hero-container" id="hero">
-     <div class="flex">
+     <div class="container flex">
       <div class="slider-container">
         <ul class="slider">
           <li class="slider-item slider-item-style current-slide">
@@ -96,7 +96,7 @@
         </div>
       </section>
       <main id="main">
-        <section class="product" id="product-section-container">
+        <section class="product">
           <div class="container flex">
             <div class="product-section flex">
               <h2 class="product-head">Products</h2>
@@ -125,7 +125,7 @@
                   </div>
                   <div class="product-img">
                     <a href="/product/<%= e.slug %>">
-                      <img src="/img<%= e.imageCover %>.jpg" alt="<%= e.imageCover %>"
+                      <img src="/img/product<%= e.imageCover %>" alt="<%= e.imageCover %>"
                     /></a>
                   </div>
                   <div class="product-text-details">
@@ -154,7 +154,7 @@
         </section>
       </main>
 
-      <article id="about" class="flex">
+      <article id="about">
         <div class="container flex about-us">
           <div class="about-detail grid">
             <div class="text">
@@ -194,12 +194,12 @@
           </div>
         </div>
       </article>
-      <article id="testimonial" class="flex">
+      <article id="testimonial">
         <div class="container flex">
           <div class="testimonials">
             <h2 class="testimonial-head">Testimonials</h2>
-            <div class="hero-container ">
-              <div class="slider-container testimonial-slider-box">
+            <div class="hero-container">
+              <div class="slider-container">
                 <ul class="slider-1 testimonial-slider">
                   <li
                     class="slider-item-style testimonial-slider-item current-slide"
