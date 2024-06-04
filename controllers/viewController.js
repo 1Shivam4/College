@@ -1,6 +1,6 @@
 const Cart = require('../models/cartModel');
-
 const Product = require('../models/productModel');
+const User = require('../models/usersModel');
 const catchAsync = require('../utils/catchAsync');
 
 exports.alert = (req, res, next) => {
@@ -73,6 +73,16 @@ exports.getCart = catchAsync(async (req, res, next) => {
     res.status(200).render('cart.ejs', { data: cart, user: user });
   } else {
     res.redirect('/login?alert=not-loggedIn');
+  }
+});
+
+exports.admin = catchAsync(async (req, res, next) => {
+  if (req.isAuthenticated()) {
+    const user = await User.find();
+    const product = await Product.find();
+    res.status(200).render('admin.ejs', { user: user, product: product });
+  } else {
+    res.redirect('/');
   }
 });
 
