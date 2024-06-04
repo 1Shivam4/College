@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dizzee Admin Panel</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
+    <style></style>
+  </head>
+  <body>
+    <div class="dashboard">
+      <h1>Admin Panel</h1>
+      <div class="grid dashboard-container">
+        <div class="dashboard_left flex">
+          <div class="dashboard_left_content flex">
+            <a href="#products" class="access_link" id="product_link"
+              >Products</a
+            >
+            <a href="#add_product" class="access_link" id="add_product_link"
+              >Add new Product</a
+            >
+            <a href="#add_manager" class="access_link" id="add_manager_link"
+              >Add new Manager</a
+            >
+            <a href="#manager" class="access_link" id="manager_link"
+              >All Managers</a
+            >
+          </div>
+        </div>
+        <div class="dashboard_right">
+          <div class="dashboard_right_content" id="add_product">
+            <h3>Product</h3>
+
+            <form id="product" class="grid form" enctype="multipart/form-data">
+              <div class="input_details flex">
+                <label for="name">Product Name:</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Enter the product name"
+                  required
+                />
+              </div>
+              <div class="input_details flex">
+                <label for="price">Product Price:</label>
+                <input
+                  type="text"
+                  id="price"
+                  name="price"
+                  placeholder="Enter the product price"
+                  required
+                />
+              </div>
+              <div class="input_details flex">
+                <label for="description">Product Description:</label>
+                <textarea
+                  name="description"
+                  id="description"
+                  cols="55"
+                  rows="5"
+                  placeholder="Enter Description"
+                ></textarea>
+              </div>
+              <div class="input_details flex">
+                <div>
+                  <label for="imageCover">Cover Image:</label>
+                  <input
+                    type="file"
+                    id="imageCover"
+                    name="imageCover"
+                    accept=".jpg, .jpeg, .png"
+                    required
+                  />
+                </div>
+                <div>
+                  <label for="images">Images:</label>
+                  <input
+                    type="file"
+                    id="images"
+                    name="images"
+                    class="file-input"
+                    accept=".jpg, .jpeg, .png"
+                    multiple
+                  />
+                </div>
+              </div>
+              <div class="input_details flex">
+                <label for="category">Product Category:</label>
+                <select name="category" id="category">
+                  <option value="food">Food</option>
+                  <option value="applications">Applications</option>
+                  <option value="electronics">Electronics</option>
+                </select>
+              </div>
+              <div class="input_details flex submit_or_reset_buttons">
+                <button type="submit" id="submitForm">Add New Product</button>
+                <button type="reset">Reset product details</button>
+              </div>
+            </form>
+          </div>
+          <div class="dashboard_right_content" id="products">
+            <div class="table-container">
+              <table class="styled-table">
+                <thead>
+                  <tr>
+                    <th>Image</th>
+                    <th>Price</th>
+                    <th>Name</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% product.forEach((e)=>{ %>
+                  <tr>
+                    <td>
+                      <img src="/img/product<%= e.imageCover %>" alt="" />
+                    </td>
+                    <td><%= e.price %></td>
+                    <td><%= e.name %></td>
+                    <td>
+                      <div class="edit_or_delete">
+                        <a href="#" id="edit">Edit ✏️</a>
+                        <a href="#" class="delete" data-id="<%= e.id %>"
+                          >Delete 🗑️</a
+                        >
+                      </div>
+                    </td>
+                  </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="dashboard_right_content" id="manager">
+            <div class="table-container">
+              <table class="styled-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% user.forEach(e=>{ %>
+                  <tr>
+                    <td><%= e.name %></td>
+                    <td><%= e.role %></td>
+                    <td>
+                      <div class="edit_or_delete">
+                        <a href="#" id="edit">Edit ✏️</a>
+                      </div>
+                    </td>
+                  </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="dashboard_right_content" id="add_manager">
+            <h3>Add Manager</h3>
+            <form id="manager_form" class="grid form">
+              <div class="input_details flex">
+                <label for="manager_name">Product Name:</label>
+                <input
+                  type="text"
+                  id="manager_name"
+                  name="manager_name"
+                  placeholder="Enter the product name"
+                  required
+                />
+              </div>
+              <div class="input_details flex">
+                <label for="email">Email :</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Enter email"
+                  required
+                />
+              </div>
+
+              <div class="input_details flex">
+                <label for="role">Role :</label>
+                <select name="role" id="role">
+                  <option value="manager">Manager</option>
+                  <option value="lead-manager">Lead Manager</option>
+                </select>
+              </div>
+              <div class="input_details flex">
+                <label for="password">password :</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Enter password"
+                  required
+                />
+              </div>
+              <div class="input_details flex">
+                <label for="password_confirm">Confirm password :</label>
+                <input
+                  type="password_confirm"
+                  id="password_confirm"
+                  name="password_confirm"
+                  placeholder="Confirm password"
+                  required
+                />
+              </div>
+              <div class="input_details flex submit_or_reset_buttons">
+                <button type="submit">Add New Product</button>
+                <button type="reset">Reset product details</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/js/bundle.js"></script>
+    <script src="/js/functionality/admin.js"></script>
+  </body>
+</html>

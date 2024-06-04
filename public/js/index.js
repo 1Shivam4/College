@@ -1,8 +1,11 @@
 import axios from 'axios';
-import { showAlert } from './alerts.js';
+import { showAlert } from './alerts';
+import { uploadProduct } from './upload';
 
 const productBtn = document.querySelector('.buy_now');
 const reviewForm = document.getElementById('review_form');
+const uploadForm = document.getElementById('product');
+console.log(uploadForm);
 
 if (productBtn) {
   productBtn.addEventListener('click', async (e) => {
@@ -18,7 +21,7 @@ if (productBtn) {
     try {
       const response = await axios({
         method: 'POST',
-        url: `/api/v1/payment/order/${productId}`,
+        url: `http://localhost:3000/api/v1/payment/order/${productId}`,
       });
 
       const order = response.data.order; // Accessing the order object
@@ -92,14 +95,64 @@ if (reviewForm) {
       }
     } catch (error) {
       console.error('Error submitting the form:', error);
-      if (error.response) {
-        console.error('Server response:', error.response.data);
-        showAlert('error', error.response.data.message || 'An error occurred!');
-      } else {
-        showAlert('error', 'Please login!');
-      }
+      showAlert('error', 'Please login!');
     }
   });
+}
+
+if (uploadForm) {
+  uploadForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const form = new FormData();
+    form.append('name', document.getElementById('name').value);
+    form.append('price', document.getElementById('price').value);
+    form.append('description', document.getElementById('description').value);
+    form.append('imageCover', document.getElementById('imageCover').files[0]);
+
+    const images = document.getElementById('images').files;
+    for (let i = 0; i < images.length; i++) {
+      form.append('images', images[i]);
+    }
+
+    form.append('category', document.getElementById('category').value);
+
+    document.getElementById('submitForm').textContent = 'processing...';
+    uploadProduct(form);
+
+    uploadForm.reset();
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  const deleteLinks = document.querySelectorAll('.delete');
+  deleteLinks.forEach((link) => {
+    link.addEventListener('click', function (event) {
+      event.preventDefault();
+      const productId = this.getAttribute('data-id');
+      deleteProduct(productId);
+    });
+  });
+});
+
+function deleteProduct(productId) {
+  if (confirm('Are you sure you want to delete this product?')) {
+    axios
+      .delete(`/api/v1/product/${productId}`)
+      .then((response) => {
+        if (response.status === 200) {
+          alert('Product deleted');
+          // Optionally, remove the item from the DOM or refresh the page
+          location.reload(); // Reloads the page to reflect the changes
+        } else {
+          alert('Failed to delete product');
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+      });
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -122,4 +175,14 @@ document.addEventListener('DOMContentLoaded', () => {
   if (alertParam === 'login-success') {
     alert('Successfully logged in');
   }
+
+  if (alertParam === 'review-failed') {
+    alert(
+      "You havn't purchased the product. Please purchase the product first."
+    );
+  }
+
+  // if (alertParam === 'review-success') {
+  //   alert('Thanks for the review.');
+  // }
 });

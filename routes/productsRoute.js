@@ -7,7 +7,12 @@ const router = express.Router();
 router
   .route('/')
   .get(productController.getProducts)
-  .post(productController.createProduct);
+  .post(
+    authController.restrictTo('admin', 'lead-manager', 'manager'),
+    productController.uploadImages,
+    productController.resizeProductImages,
+    productController.createProduct
+  );
 
 router
   .route('/:product')

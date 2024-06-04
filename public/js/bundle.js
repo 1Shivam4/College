@@ -2456,9 +2456,28 @@
     window.setTimeout(hideAlert, time * 1e3);
   };
 
+  // public/js/upload.js
+  var uploadProduct = async (data) => {
+    try {
+      const res = await axios_default({
+        method: "POST",
+        url: "/api/v1/product",
+        data
+      });
+      if (res.data.status === "success") {
+        showAlert("success", "New product has been added");
+      }
+    } catch (err) {
+      console.error("Error:", err.response ? err.response.data : err.message);
+      showAlert("error", err.response ? err.response.data.message : err.message);
+    }
+  };
+
   // public/js/index.js
   var productBtn = document.querySelector(".buy_now");
   var reviewForm = document.getElementById("review_form");
+  var uploadForm = document.getElementById("product");
+  console.log(uploadForm);
   if (productBtn) {
     productBtn.addEventListener("click", async (e) => {
       e.preventDefault();
@@ -2470,7 +2489,7 @@
       try {
         const response = await axios_default({
           method: "POST",
-          url: `/api/v1/payment/order/${productId}`
+          url: `http://localhost:3000/api/v1/payment/order/${productId}`
         });
         const order = response.data.order;
         const options = {
@@ -2538,14 +2557,52 @@
         }
       } catch (error) {
         console.error("Error submitting the form:", error);
-        if (error.response) {
-          console.error("Server response:", error.response.data);
-          showAlert("error", error.response.data.message || "An error occurred!");
-        } else {
-          showAlert("error", "Please login!");
-        }
+        showAlert("error", "Please login!");
       }
     });
+  }
+  if (uploadForm) {
+    uploadForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const form = new FormData();
+      form.append("name", document.getElementById("name").value);
+      form.append("price", document.getElementById("price").value);
+      form.append("description", document.getElementById("description").value);
+      form.append("imageCover", document.getElementById("imageCover").files[0]);
+      const images = document.getElementById("images").files;
+      for (let i = 0; i < images.length; i++) {
+        form.append("images", images[i]);
+      }
+      form.append("category", document.getElementById("category").value);
+      document.getElementById("submitForm").textContent = "processing...";
+      uploadProduct(form);
+      uploadForm.reset();
+    });
+  }
+  document.addEventListener("DOMContentLoaded", function() {
+    const deleteLinks = document.querySelectorAll(".delete");
+    deleteLinks.forEach((link) => {
+      link.addEventListener("click", function(event) {
+        event.preventDefault();
+        const productId = this.getAttribute("data-id");
+        deleteProduct(productId);
+      });
+    });
+  });
+  function deleteProduct(productId) {
+    if (confirm("Are you sure you want to delete this product?")) {
+      axios_default.delete(`/api/v1/product/${productId}`).then((response) => {
+        if (response.status === 200) {
+          alert("Product deleted");
+          location.reload();
+        } else {
+          alert("Failed to delete product");
+        }
+      }).catch((error) => {
+        console.error("Error:", error);
+        alert("An error occurred. Please try again.");
+      });
+    }
   }
   document.addEventListener("DOMContentLoaded", () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -2563,6 +2620,11 @@
     }
     if (alertParam === "login-success") {
       alert("Successfully logged in");
+    }
+    if (alertParam === "review-failed") {
+      alert(
+        "You havn't purchased the product. Please purchase the product first."
+      );
     }
   });
 })();
