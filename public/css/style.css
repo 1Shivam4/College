@@ -727,7 +727,7 @@ footer .container {
   }
   .product-container {
     padding: 0px 15px;
-    grid-template-columns: repeat(2, 8.25rem);
+    grid-template-columns: repeat(2, 9.3rem);
     gap: 1.25rem;
     place-content: center;
   }
