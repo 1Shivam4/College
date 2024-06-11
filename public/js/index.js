@@ -43,12 +43,12 @@ if (productBtn) {
               }
             );
             alert(
-              verificationResponse.data.response,
+              verificationResponse.data.response.message,
               'Verification Successful'
             );
           } catch (err) {
-            console.error('Verification Failed', err);
-            alert('Verification Failed');
+            console.error('Verification Failed', err.message);
+            alert(response);
           }
         },
         theme: {

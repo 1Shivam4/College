@@ -42,7 +42,6 @@ exports.verifyPayment = catchAsync(async (req, res, next) => {
     user,
     product,
   });
-  console.log(purchase);
 
   // Perform signature verification
   const hmac = crypto.createHmac('sha256', process.env.RAZORPAY_SECRET);

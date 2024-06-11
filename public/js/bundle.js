@@ -2489,7 +2489,7 @@
       try {
         const response = await axios_default({
           method: "POST",
-          url: `http://localhost:3000/api/v1/payment/order/${productId}`
+          url: `/api/v1/payment/order/${productId}`
         });
         const order = response.data.order;
         const options = {
@@ -2509,12 +2509,12 @@
                 }
               );
               alert(
-                verificationResponse.data.response,
+                verificationResponse.data.response.message,
                 "Verification Successful"
               );
             } catch (err) {
-              console.error("Verification Failed", err);
-              alert("Verification Failed");
+              console.error("Verification Failed", err.message);
+              alert(response2);
             }
           },
           theme: {
